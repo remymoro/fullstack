@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { ProjectsModule } from './projects/projects.module';
+import { Project } from './projects/entities/project.entity';
 
 @Module({
     imports: [
@@ -19,11 +21,12 @@ import { join } from 'path';
         database: configService.get<string>('MYSQL_DATABASE'),
         username: configService.get<string>('MYSQL_USER'),
         password: configService.get<string>('MYSQL_PASSWORD'),
-        entities: [],
+        entities: [__dirname + '/../**/*.entity.js'] ,
         synchronize: true,
       }),
       inject: [ConfigService],
-    })],
+    }),
+    ProjectsModule],
   controllers: [AppController],
   providers: [AppService],
 })
